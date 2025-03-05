@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom'
 function PrivateRoute({Component}) {
     
     const[isAuth, setIsAuth] = useState("")
+    const[error, setIsError] = useState("")
 
     const localjson = localStorage.getItem('jsontoken')
     const localemail = localStorage.getItem('jemail')
@@ -19,18 +20,26 @@ function PrivateRoute({Component}) {
 
         const fetchData = async() => {
             try {
-                const response = await axios.post('http://localhost:8080/getuser', {localjson, localemail})
+                const response = await axios.post(`${process.env.REACT_APP_NODE_API}/getuser`, {localjson, localemail})
                 const result = response.data
-                if(result) {
+                if(response.status == 200) {
                     setIsAuth(result)
+                } else {
+                    setIsError("please Login")
                 }
             } catch (error) {
-                console.log(error)
+                setIsError("Please Log In")
             }
         }
         fetchData()
         
     })
+
+    if(error) {
+        return (
+            <Navigate to={"/login"} />
+        )
+    }
 
     if(!isAuth) {
         return (

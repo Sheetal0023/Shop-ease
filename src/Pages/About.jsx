@@ -6,7 +6,7 @@ import "../Components/Header/Header.css"
 
 
 const About = ({user}) => {
-    const {username, phone} = user
+    const {username, phone, error} = user
     const name = useContext(AppContext)
     
     return (
