@@ -19,7 +19,6 @@ const LogIn = () => {
     const [formError, setFormError] = useState({}) 
     const [backError, setBackError] = useState({})
     const [isSubmit, setIsSubmit] = useState(false)
-    const [loading, setIsLoading] = useState({})
 
     const navigate = useNavigate()
 
@@ -43,11 +42,11 @@ const LogIn = () => {
                     const response = await axios.post(`${process.env.REACT_APP_NODE_API}/login`, formValue)
                     let result = response.data
                     setBackError(result)
+                    
                     if(response.status == 200) {
                         localStorage.setItem('jsontoken', result.token)
                         localStorage.setItem('jemail', result.email)
                         navigate("/newPage", {state: result})
-                        setIsLoading(true)
                     }
                 } catch (error) {
                     console.log(error)
@@ -81,11 +80,7 @@ const LogIn = () => {
 
     }
 
-    if(!loading) {
-        
-            <div>LOader</div>
-        
-    } else {
+ 
         return (
 
     
@@ -133,7 +128,7 @@ const LogIn = () => {
             </div>
             </div>
           )
-    }
+    
   
 }
 
